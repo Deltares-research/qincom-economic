@@ -5,23 +5,23 @@ Created on Tue Apr 16 13:31 2019
 @author: L.K. Leunge
 """
 
+from pathlib import Path
+
+import numpy as np
+import numpy_financial as npf
 from economic_postprocessing_functions import (
-    read_bivas_input,
-    calculate_sailing_costs,
-    calculate_remaining_freight,
-    calculate_distribution_freight,
     calculate_difference_welfare_costs,
+    calculate_distribution_freight,
     calculate_increase_storage_capacity,
-    calculate_welfare_costs,
     calculate_increase_structural_costs,
     calculate_npv,
+    calculate_remaining_freight,
+    calculate_sailing_costs,
+    calculate_welfare_costs,
+    read_bivas_input,
     store_bivas_scenarios,
     store_costs_and_npv,
 )
-from pathlib import Path
-from pathlib import Path
-import numpy as np
-import numpy_financial as npf
 
 
 def main():
@@ -50,7 +50,7 @@ def main():
     # Scenarios.
     scenarios = ["D2050BP18", "R2050BP18", "S2050BP18", "W2050BP18"]
     scenario_year = 2050
-    storage_scenarios = ["Laag", "Middel", "Hoog"]
+    storage_scenarios = ["Middel"]
 
     # Historical time vector (final year of series + 1).
     t = range(1911, 2012)
