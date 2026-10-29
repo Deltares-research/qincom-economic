@@ -191,7 +191,7 @@ def calculate_sailing_costs(
                     .sum()
                     .values
                 ),
-                    delta["Uiteindelijke Vaarkosten [EUR (2017)]"].sum(),
+                delta["Uiteindelijke Vaarkosten [EUR (2017)]"].sum(),
             ]
         )
 
@@ -365,11 +365,15 @@ def calculate_increase_storage_capacity(
     input_path, scenario_ref, scenario_i, years, reference_year
 ):
     # Open reference scenario and scenario worksheets.
-    aux_df_ref = pd.read_csv(Path(input_path, (scenario_ref + ".csv")), index_col=[0, 1, 2, 3]).reset_index()
+    aux_df_ref = pd.read_csv(
+        Path(input_path, (scenario_ref + ".csv")), index_col=[0, 1, 2, 3]
+    ).reset_index()
     aux_df_ref.drop(
         aux_df_ref.columns[[4, 6, 7, 8, 9, 10, 11, 12]], axis=1, inplace=True
     )
-    aux_df_i = pd.read_csv(Path(input_path, (scenario_i + ".csv")), index_col=[0, 1, 2, 3]).reset_index()
+    aux_df_i = pd.read_csv(
+        Path(input_path, (scenario_i + ".csv")), index_col=[0, 1, 2, 3]
+    ).reset_index()
     aux_df_i.drop(aux_df_i.columns[[4, 6, 7, 8, 9, 10, 11, 12]], axis=1, inplace=True)
 
     # Adjust column names.
@@ -930,9 +934,6 @@ def calculate_npv(
     variable_costs_sailing_i,
     variable_costs_storage_and_sailing_i,
     variable_costs_modal_shift_i,
-    total_costs_storage_capacity,
-    total_costs_road_capacity,
-    total_costs_train_capacity,
     future_time,
     shift,
     discount_rate,
@@ -944,23 +945,23 @@ def calculate_npv(
         # Calculate the yearly costs over the period 2018 - ...
         data_ref = np.array(
             [
-                mean(np.array(variable_costs_sailing_ref, dtype='object')[:, 3]),
-                mean(np.array(variable_costs_storage_and_sailing_ref, dtype='object')[:, 1]),
-                mean(np.array(variable_costs_modal_shift_ref, dtype='object')[:, -1]),
-                0,
-                0,
-                0,
+                mean(np.array(variable_costs_sailing_ref, dtype="object")[:, 3]),
+                mean(
+                    np.array(variable_costs_storage_and_sailing_ref, dtype="object")[
+                        :, 1
+                    ]
+                ),
+                mean(np.array(variable_costs_modal_shift_ref, dtype="object")[:, -1]),
             ]
         )
 
         data_i = np.array(
             [
-                mean(np.array(variable_costs_sailing_i, dtype='object')[:, 3]),
-                mean(np.array(variable_costs_storage_and_sailing_i, dtype='object')[:, 1]),
-                mean(np.array(variable_costs_modal_shift_i, dtype='object')[:, -1]),
-                total_costs_storage_capacity[j],
-                total_costs_road_capacity[j],
-                total_costs_train_capacity[j],
+                mean(np.array(variable_costs_sailing_i, dtype="object")[:, 3]),
+                mean(
+                    np.array(variable_costs_storage_and_sailing_i, dtype="object")[:, 1]
+                ),
+                mean(np.array(variable_costs_modal_shift_i, dtype="object")[:, -1]),
             ]
         )
 
@@ -1001,9 +1002,6 @@ def store_costs_and_npv(
     variable_costs_storage_and_sailing_i,
     variable_costs_modal_shift_i,
     storage_scenarios,
-    total_costs_storage_capacity,
-    total_costs_road_capacity,
-    total_costs_train_capacity,
     delta_variabele_costs_sailing,
     delta_variable_costs_storage_and_sailing,
     delta_variable_costs_modal_shift,
@@ -1127,9 +1125,6 @@ def store_costs_and_npv(
         ws.append(
             [
                 storage_scenarios[i],
-                total_costs_storage_capacity[i],
-                total_costs_road_capacity[i],
-                total_costs_train_capacity[i],
             ]
         )
 
@@ -1174,9 +1169,6 @@ def calculate_difference_welfare_costs(
     delta_variabele_costs_sailing,
     delta_variable_costs_storage_and_sailing,
     delta_variable_costs_modal_shift,
-    total_costs_storage_capacity,
-    total_costs_road_capacity,
-    total_costs_train_capacity,
     t,
     output_path,
     scenario,
@@ -1201,9 +1193,6 @@ def calculate_difference_welfare_costs(
                 [delta_variabele_costs_sailing[j] for j in sort_index],
                 [delta_variable_costs_storage_and_sailing[j] for j in sort_index],
                 [delta_variable_costs_modal_shift[j] for j in sort_index],
-                [total_costs_storage_capacity[i]] * len(t),
-                [total_costs_road_capacity[i]] * len(t),
-                [total_costs_train_capacity[i]] * len(t),
             ]
         )
 
